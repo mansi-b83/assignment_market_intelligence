@@ -1,0 +1,45 @@
+The approach followed was:
+
+a. User login check
+	1. If the project is run for first time, user will be asked to login to twitter.
+	2. After logging in, user should return to the notebook and has to press enter.
+b. Data collection
+	1. After pressing enter, the data collection from twitter will start.
+	2. Created a list of hashtags to track and launched browser session
+	3. Opened search url for each hashtag defined.
+	4. Scrolled the page automtically to load tweets
+	5. Extracted the tweets loaded, Captured username,content,likes,retweets,replies,mentions and hashtags
+c. Data Processing
+	1. Split username block into display name and Twitter handle(email id)
+	2. Convert likes, retweets and replies from strings like "1K" or "3M" to integers. Handled missing values
+	3. Cleaned tweet content by removing URLs, emojis, unwanted characters. Normalize spaces and strip leading/traling spaces
+	4. Retained hashtags if text content became empty
+	5. Extracted only specific hashtags from raw data
+	6. Created tweet id to uniquely identify a tweet and used that tweet id to remove duplicates
+	7. Normalized timestamp and added processing timestamp
+	8. Stored this data in processed file
+d. Data Storage
+	1. Saved the processed data into .parquet file
+e. Data Analysis
+	1. Transform tweet text into numerical signals using TF-IDF.
+	2. Initialize TfidfVectorizer with: max_features to limit vocabulary size and ngram_range=(1,2) to capture unigrams and bigrams.
+	3. Fit the vectorizer on contents (list of tweet texts) and transform into a sparse TF-IDF matrix X.
+	4. Compute document-level signal by averaging TF-IDF values across all features for each tweet.
+	5. Return:
+		• vectorizer object (for reuse)
+		• TF-IDF matrix X
+		• 1D array doc_signal representing a numerical “signal” per tweet
+	6. Did aggregation by Exploding the hashtags column so that each tweet-hashtag pair becomes a separate row.
+	7. Group the dataframe by hashtags.
+	8. For each hashtag:
+		• Calculate count → number of tweets containing this hashtag
+		• Calculate mean_signal → average of signal values
+	9. Compute 95% confidence interval:
+		Standard error: SE = std / sqrt(n)
+		CI_lower = mean - 1.96 * SE
+		CI_upper = mean + 1.96 * SE
+	10. Gave output of top 10 hashtags with their count and mean_signal
+	11. Added this mean_signal for each tweet in processed parquet file as well
+	10. Plot a histogram of the signal column using matplotlib.
+
+	

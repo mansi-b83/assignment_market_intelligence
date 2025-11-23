@@ -1,0 +1,12 @@
+notebook
+pandas
+numpy
+matplotlib
+scikit-learn
+selenium
+pyarrow
+undetected-chromedriver
+googletrans==4.0.0-rc1
+regex
+tqdm
+requests
