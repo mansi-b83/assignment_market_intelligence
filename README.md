@@ -6,5 +6,5 @@ Steps to run the project
 4. A browser window will open at localhost.
    - Navigate to your project folder and open the file **marketIntelligence.ipynb**.
 6. Run the notebook.
-  - On the first run, **you will be prompted to log in to Twitter**.
+     - On the first run, **you will be prompted to log in to Twitter**.
   - After you successfully log in, return to the notebook and **press Enter where instructed**.
